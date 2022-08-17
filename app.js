@@ -1,8 +1,6 @@
-const PORT = 4000;
+const path = require("path");
 
 const express = require("express");
-const cors = require("cors");
-const axios = require("axios");
 
 require("dotenv").config();
 
@@ -15,5 +13,5 @@ app.get("/", (req, res, next) => {
 app.get("/", (req, res, next) => {});
 
 app.listen(4000, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port 4000`);
 });
