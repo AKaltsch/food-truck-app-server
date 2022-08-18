@@ -10,20 +10,27 @@ const MongoDBStore = require("connect-mongodb-session")(session);
 
 require("dotenv").config();
 
+const User = require("./models/user");
+
 const MONGODB_URI = process.env.MONGODB_KEY;
 
 const app = express();
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 
 const store = new MongoDBStore({
   uri: MONGODB_URI,
   collection: "sessions",
 });
 
+const authRoutes = require("./routes/authRoutes");
+
 app.get("/", (req, res, next) => {
   res.json("hi");
 });
 
-app.get("/", (req, res, next) => {});
+app.use(authRoutes);
 
 mongoose
   .connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
