@@ -17,6 +17,10 @@ const MONGODB_URI = process.env.MONGODB_KEY;
 
 const app = express();
 
+const csrfProtection = csrf();
+
+const authRoutes = require("./routes/authRoutes");
+
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
@@ -26,11 +30,16 @@ const store = new MongoDBStore({
   collection: "sessions",
 });
 
-const authRoutes = require("./routes/authRoutes");
+app.use(
+  session({
+    secret: "secret",
+    resave: false,
+    saveUninitialized: false,
+    store: store,
+  })
+);
 
-app.get("/", (req, res, next) => {
-  res.json("hi");
-});
+// app.use(csrfProtection());
 
 app.use(authRoutes);
 
