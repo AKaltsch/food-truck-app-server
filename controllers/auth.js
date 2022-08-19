@@ -1,6 +1,11 @@
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 
+exports.getLogin = (req, res, next) => {
+  const message = "you are getting this message";
+  return message;
+};
+
 exports.postLogin = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
