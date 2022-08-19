@@ -2,8 +2,17 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 
 exports.getLogin = (req, res, next) => {
-  const message = "you are getting this message";
-  return message;
+  const user = req.session.user;
+  let message;
+
+  if (!user) {
+    message = "no user signed in!";
+    console.log(message);
+    return message;
+  }
+  message = "successfully retrieved user!!";
+  console.log(message);
+  return user;
 };
 
 exports.postLogin = (req, res, next) => {

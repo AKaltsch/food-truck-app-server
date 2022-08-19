@@ -20,6 +20,7 @@ const app = express();
 const csrfProtection = csrf();
 
 const authRoutes = require("./routes/authRoutes");
+const user = require("./models/user");
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -39,9 +40,28 @@ app.use(
   })
 );
 
-// app.use(csrfProtection());
+app.use(csrfProtection);
 
 app.use(authRoutes);
+
+app.use((req, res, next) => {
+  if (!req.session.user) {
+    return next();
+  }
+  user
+    .findById(req.session.user._id)
+    .then((user) => {
+      req.user = user;
+      next();
+    })
+    .catch((err) => console.log(err));
+});
+
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.session.isLoggedIn;
+  req.locals.csrfToken = req.csrfToken();
+  next();
+});
 
 mongoose
   .connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
