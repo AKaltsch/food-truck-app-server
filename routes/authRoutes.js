@@ -1,15 +1,17 @@
 const express = require("express");
+const csrf = require("csurf");
+const csrfProtection = csrf({ cookie: true });
+const router = express.Router();
 
 const authController = require("../controllers/auth");
 const User = require("../models/user");
 
-const router = express.Router();
 ////////////////////////////////////
 
-router.get("/login", authController.getLogin);
+router.get("/login", csrfProtection, authController.getLogin);
 
-router.post("/login", authController.postLogin);
+router.post("/login", csrfProtection, authController.postLogin);
 
-router.post("/signup", authController.postSignup);
+router.post("/signup", csrfProtection, authController.postSignup);
 
 module.exports = router;
