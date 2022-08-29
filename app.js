@@ -3,9 +3,11 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const csrf = require("csurf");
+// const csrf = require("csurf");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+
+const jwt = require("jsonwebtoken");
 
 const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
@@ -18,7 +20,7 @@ const MONGODB_URI = process.env.MONGODB_KEY;
 
 const app = express();
 
-const csrfProtection = csrf({ cookie: true });
+// const csrfProtection = csrf({ cookie: true });
 
 const authRoutes = require("./routes/authRoutes");
 const user = require("./models/user");
@@ -43,7 +45,7 @@ app.use(
   })
 );
 
-app.use(csrfProtection);
+// app.use(csrfProtection);
 
 app.use(authRoutes);
 
@@ -62,9 +64,9 @@ app.use((req, res, next) => {
 
 app.use("/", (req, res, next) => {
   console.log(req);
-  res.cookie("XSRF-TOKEN", req.csrfToken());
+  // res.cookie("XSRF-TOKEN", req.csrfToken());
   res.locals.isAuthenticated = req.session.isLoggedIn;
-  res.locals.csrfToken = req.csrfToken();
+  // res.locals.csrfToken = req.csrfToken();
   next();
 });
 

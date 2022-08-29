@@ -1,9 +1,13 @@
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 exports.getLogin = (req, res, next) => {
   const user = req.session.user;
   let message;
+
+  console.log(user);
 
   if (!user) {
     message = "no user signed in!";
@@ -12,7 +16,7 @@ exports.getLogin = (req, res, next) => {
   }
   message = "successfully retrieved user!!";
   console.log(message);
-  res.send({ csrfToken: req.csrfToken() });
+  // res.send({ csrfToken: req.csrfToken() });
 };
 
 exports.postLogin = (req, res, next) => {
@@ -28,9 +32,15 @@ exports.postLogin = (req, res, next) => {
       .compare(password, user.password)
       .then((match) => {
         if (match) {
+          const id = user._id;
+          const token = jwt.sign({ id }, process.env.TOKEN_KEY, {
+            expiresIn: "10m",
+          });
+
           req.session.isLoggedIn = true;
           req.session.user = user;
-          console.log(req.session);
+          // console.log(req.session);
+          res.json({ auth: true, token: token, user: user });
           return req.session.save((err) => console.log(err));
         } else {
           console.log("passwords do not match");
@@ -55,9 +65,9 @@ exports.postSignup = (req, res, next) => {
       return user.save();
     })
     .then((user) => {
-      console.log(user);
+      // console.log(user);
       console.log("user created!!!");
-      res.redirect("/");
+      res.redirect("http://localhost:3000/login");
     })
     .catch((err) => console.log(err));
 };
