@@ -28,6 +28,7 @@ exports.postLogin = (req, res, next) => {
   User.findOne({ email: email }).then((user) => {
     if (!user) {
       console.log("no user");
+      res.json({ auth: false, message: "No user exists!!" });
       return;
     }
     bcrypt
@@ -42,10 +43,11 @@ exports.postLogin = (req, res, next) => {
           req.session.isLoggedIn = true;
           req.session.user = user;
           // console.log(req.session);
-          res.json({ auth: true, token: token, user: req.session.user });
+          res.json({ auth: true, token: token, user: user });
           return req.session.save((err) => console.log(err));
         } else {
           console.log("passwords do not match");
+          res.json({ auth: false, message: "wrong username/password!!" });
           return;
         }
       })
