@@ -3,11 +3,13 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
+exports.getAuth = (req, res, next) => {
+  res.send("You are authenticated!!!");
+};
+
 exports.getLogin = (req, res, next) => {
   const user = req.session.user;
   let message;
-
-  console.log(user);
 
   if (!user) {
     message = "no user signed in!";
@@ -40,7 +42,7 @@ exports.postLogin = (req, res, next) => {
           req.session.isLoggedIn = true;
           req.session.user = user;
           // console.log(req.session);
-          res.json({ auth: true, token: token, user: user });
+          res.json({ auth: true, token: token, user: req.session.user });
           return req.session.save((err) => console.log(err));
         } else {
           console.log("passwords do not match");
