@@ -18,7 +18,6 @@ exports.getLogin = (req, res, next) => {
   }
   message = "successfully retrieved user!!";
   console.log(message);
-  // res.send({ csrfToken: req.csrfToken() });
 };
 
 exports.postLogin = (req, res, next) => {
