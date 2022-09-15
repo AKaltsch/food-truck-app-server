@@ -70,4 +70,7 @@ mongoose
       console.log(`Server is running on port 4000`);
     });
   })
-  .catch((err) => console.log(err));
+  .catch((err) => {
+    console.log("hitting DB connection error");
+    console.log(err);
+  });
