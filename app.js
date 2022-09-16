@@ -20,6 +20,7 @@ const MONGODB_URI = process.env.MONGODB_KEY;
 const app = express();
 
 const authRoutes = require("./routes/authRoutes");
+const placeRoutes = require("./models/place");
 const user = require("./models/user");
 
 app.use(cors());
@@ -43,6 +44,7 @@ app.use(
 );
 
 app.use(authRoutes);
+app.use(placeRoutes);
 
 app.use((req, res, next) => {
   if (!req.session.user) {
