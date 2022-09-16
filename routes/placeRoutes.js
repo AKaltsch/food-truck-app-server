@@ -5,4 +5,4 @@ const placeController = require("../controllers/place");
 
 router.post("/placeform", placeController.postPlace);
 
-module.exports(router);
+module.exports = router;

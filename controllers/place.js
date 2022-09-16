@@ -1,6 +1,7 @@
 const Place = require("../models/place");
 
 exports.postPlace = (req, res, next) => {
+  console.log(req.body);
   const title = req.body.title;
   const imageUrl = req.body.imageUrl;
   const artistName = req.body.artistName;
