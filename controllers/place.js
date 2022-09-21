@@ -1,7 +1,6 @@
 const Place = require("../models/place");
 
 exports.postPlace = (req, res, next) => {
-  console.log(req.body);
   const title = req.body.title;
   const imageUrl = req.body.imageUrl;
   const artistName = req.body.artistName;
@@ -17,6 +16,14 @@ exports.postPlace = (req, res, next) => {
     .then((result) => {
       console.log("place created!!!");
       res.redirect("/");
+    })
+    .catch((err) => console.log(err));
+};
+
+exports.getPlaces = (req, res, next) => {
+  Place.find()
+    .then((places) => {
+      res.send({ places: places });
     })
     .catch((err) => console.log(err));
 };
