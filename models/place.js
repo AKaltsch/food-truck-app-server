@@ -23,6 +23,10 @@ const placeSchema = new Schema({
     type: Number,
     required: true,
   },
+  dateUploaded: {
+    type: Date,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("Place", placeSchema);

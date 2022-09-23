@@ -6,6 +6,7 @@ exports.postPlace = (req, res, next) => {
   const artistName = req.body.artistName;
   const lng = req.body.lng;
   const lat = req.body.lat;
+  const dateUploaded = req.body.dateUploaded;
 
   const place = new Place({
     title: title,
@@ -13,6 +14,7 @@ exports.postPlace = (req, res, next) => {
     artistName: artistName,
     lat: lat,
     lng: lng,
+    dateUploaded: dateUploaded,
   });
 
   place
