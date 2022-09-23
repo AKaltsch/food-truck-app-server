@@ -4,11 +4,15 @@ exports.postPlace = (req, res, next) => {
   const title = req.body.title;
   const imageUrl = req.body.imageUrl;
   const artistName = req.body.artistName;
+  const lng = req.body.lng;
+  const lat = req.body.lat;
 
   const place = new Place({
     title: title,
     imageUrl: imageUrl,
     artistName: artistName,
+    lat: lat,
+    lng: lng,
   });
 
   place
