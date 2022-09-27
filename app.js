@@ -21,7 +21,6 @@ const app = express();
 
 const authRoutes = require("./routes/authRoutes");
 const placeRoutes = require("./routes/placeRoutes");
-const user = require("./models/user");
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -32,6 +31,11 @@ app.use(cookieParser());
 const store = new MongoDBStore({
   uri: MONGODB_URI,
   collection: "sessions",
+});
+
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  next();
 });
 
 app.use(

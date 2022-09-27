@@ -74,7 +74,6 @@ exports.postSignup = (req, res, next) => {
     .then((user) => {
       // console.log(user);
       console.log("user created!!!");
-      res.redirect("http://localhost:3000/login");
     })
     .catch((err) => console.log(err));
 };
