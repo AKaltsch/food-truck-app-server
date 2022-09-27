@@ -1,4 +1,5 @@
 const Place = require("../models/place");
+const user = require("../models/user");
 
 exports.postPlace = (req, res, next) => {
   const title = req.body.title;
@@ -7,6 +8,7 @@ exports.postPlace = (req, res, next) => {
   const lng = req.body.lng;
   const lat = req.body.lat;
   const dateUploaded = req.body.dateUploaded;
+  console.log(req.session);
 
   const place = new Place({
     title: title,
@@ -15,6 +17,7 @@ exports.postPlace = (req, res, next) => {
     lat: lat,
     lng: lng,
     dateUploaded: dateUploaded,
+    userId: req.user,
   });
 
   place
