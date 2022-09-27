@@ -43,27 +43,28 @@ app.use(
   })
 );
 
-app.use(authRoutes);
-app.use(placeRoutes);
-
 app.use((req, res, next) => {
+  console.log("First");
   if (!req.session.user) {
+    // console.log("REQSESSION: " + JSON.stringify(req.session));
     return next();
   }
-  user
-    .findById(req.session.user._id)
+  User.findById(req.session.user._id)
     .then((user) => {
+      console.log(user);
       req.user = user;
       next();
     })
     .catch((err) => console.log(err));
 });
 
-app.use("/", (req, res, next) => {
-  console.log(req);
+app.use((req, res, next) => {
   res.locals.isAuthenticated = req.session.isLoggedIn;
   next();
 });
+
+app.use(authRoutes);
+app.use(placeRoutes);
 
 mongoose
   .connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -73,6 +74,5 @@ mongoose
     });
   })
   .catch((err) => {
-    console.log("hitting DB connection error");
     console.log(err);
   });

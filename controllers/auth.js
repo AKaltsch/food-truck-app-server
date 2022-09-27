@@ -9,15 +9,11 @@ exports.getAuth = (req, res, next) => {
 
 exports.getLogin = (req, res, next) => {
   const user = req.session.user;
-  let message;
 
   if (!user) {
-    message = "no user signed in!";
-    console.log(message);
-    return message;
+    return res.send("cannot find user");
   }
-  message = "successfully retrieved user!!";
-  console.log(message);
+  return res.send("found user");
 };
 
 exports.postLogin = (req, res, next) => {
@@ -41,6 +37,7 @@ exports.postLogin = (req, res, next) => {
 
           req.session.isLoggedIn = true;
           req.session.user = user;
+          console.log("Second");
           // console.log(req.session);
           res.json({ auth: true, token: token, user: user });
           return req.session.save((err) => console.log(err));
@@ -52,6 +49,13 @@ exports.postLogin = (req, res, next) => {
       })
       .catch((err) => console.log(err));
   });
+};
+
+exports.postLogout = (req, res, next) => {
+  req.session.destroy((err) => {
+    console.log(err);
+  });
+  console.log("Logged Out!!");
 };
 
 exports.postSignup = (req, res, next) => {
