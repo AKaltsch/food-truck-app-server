@@ -24,7 +24,7 @@ const placeSchema = new Schema({
     required: true,
   },
   dateUploaded: {
-    type: Date,
+    type: String,
     required: true,
   },
 });
