@@ -9,8 +9,8 @@ const User = require("../models/user");
 ////jwt verification middleware/////
 
 const verifyJWT = (req, res, next) => {
-  console.log(req.headers);
   const token = req.headers["x-access-token"];
+  // console.log(req.headers.auth);
 
   if (!token) {
     res.send("NO TOKEN!!!");
@@ -30,7 +30,7 @@ const verifyJWT = (req, res, next) => {
 
 router.get("/isUserAuth", verifyJWT, authController.getAuth);
 
-router.get("/login", authController.getLogin);
+router.get("/login", verifyJWT, authController.getLogin);
 
 router.post("/login", authController.postLogin);
 

@@ -22,7 +22,7 @@ const app = express();
 const authRoutes = require("./routes/authRoutes");
 const placeRoutes = require("./routes/placeRoutes");
 
-app.use(cors());
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
@@ -33,10 +33,10 @@ const store = new MongoDBStore({
   collection: "sessions",
 });
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   next();
+// });
 
 app.use(
   session({
@@ -47,8 +47,17 @@ app.use(
   })
 );
 
+app.use(function (req, res, next) {
+  res.header("Content-Type", "application/json;charset=UTF-8");
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
 app.use((req, res, next) => {
-  console.log("First");
   if (!req.session.user) {
     // console.log("REQSESSION: " + JSON.stringify(req.session));
     return next();

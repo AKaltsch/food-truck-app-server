@@ -7,13 +7,24 @@ exports.getAuth = (req, res, next) => {
   res.send("You are authenticated!!!");
 };
 
-exports.getLogin = (req, res, next) => {
-  const user = req.session.user;
+// exports.getLogin = (req, res, next) => {
+//   const user = req.session.user;
+//   console.log("USER: " + req.user);
 
-  if (!user) {
-    return res.send("cannot find user");
+//   if (!user) {
+//     console.log("USERID: " + JSON.stringify(req.userId));
+//     return res.send("cannot find user");
+//   }
+//   return res.send("found user");
+// };
+
+exports.getLogin = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    req.send(user);
+  } catch {
+    (err) => console.log(err);
   }
-  return res.send("found user");
 };
 
 exports.postLogin = (req, res, next) => {
@@ -32,14 +43,13 @@ exports.postLogin = (req, res, next) => {
         if (match) {
           const id = user._id;
           const token = jwt.sign({ id }, process.env.TOKEN_KEY, {
-            expiresIn: "10m",
+            expiresIn: "10min",
           });
 
           req.session.isLoggedIn = true;
           req.session.user = user;
-          console.log("Second");
-          // console.log(req.session);
           res.json({ auth: true, token: token, user: user });
+          res.cookie("token", token);
           return req.session.save((err) => console.log(err));
         } else {
           console.log("passwords do not match");
@@ -52,10 +62,14 @@ exports.postLogin = (req, res, next) => {
 };
 
 exports.postLogout = (req, res, next) => {
+  console.log("first: " + JSON.stringify(req.session));
   req.session.destroy((err) => {
+    console.log("second: " + req.session);
+    console.log("session destroyed");
     console.log(err);
+    res.redirect("http://localhost:3000/login");
   });
-  console.log("Logged Out!!");
+  // console.log("Logged Out!!");
 };
 
 exports.postSignup = (req, res, next) => {
