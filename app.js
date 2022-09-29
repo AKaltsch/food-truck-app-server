@@ -33,11 +33,6 @@ const store = new MongoDBStore({
   collection: "sessions",
 });
 
-// app.use((req, res, next) => {
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-//   next();
-// });
-
 app.use(
   session({
     secret: "secret",
@@ -59,12 +54,10 @@ app.use(function (req, res, next) {
 
 app.use((req, res, next) => {
   if (!req.session.user) {
-    // console.log("REQSESSION: " + JSON.stringify(req.session));
     return next();
   }
   User.findById(req.session.user._id)
     .then((user) => {
-      console.log(user);
       req.user = user;
       next();
     })

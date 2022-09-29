@@ -49,7 +49,7 @@ exports.postLogin = (req, res, next) => {
           req.session.isLoggedIn = true;
           req.session.user = user;
           res.json({ auth: true, token: token, user: user });
-          res.cookie("token", token);
+          // res.cookie("token", token);
           return req.session.save((err) => console.log(err));
         } else {
           console.log("passwords do not match");
@@ -62,14 +62,11 @@ exports.postLogin = (req, res, next) => {
 };
 
 exports.postLogout = (req, res, next) => {
-  console.log("first: " + JSON.stringify(req.session));
   req.session.destroy((err) => {
-    console.log("second: " + req.session);
-    console.log("session destroyed");
     console.log(err);
-    res.redirect("http://localhost:3000/login");
+    res.redirect("http://localhost:3000");
   });
-  // console.log("Logged Out!!");
+  console.log("Logged Out!!");
 };
 
 exports.postSignup = (req, res, next) => {
