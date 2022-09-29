@@ -21,7 +21,7 @@ exports.getAuth = (req, res, next) => {
 exports.getLogin = async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
-    req.send(user);
+    return req.send(user);
   } catch {
     (err) => console.log(err);
   }
@@ -64,6 +64,7 @@ exports.postLogin = (req, res, next) => {
 exports.postLogout = (req, res, next) => {
   req.session.destroy((err) => {
     console.log(err);
+    res.redirect("http://localhost:3000/login");
   });
   console.log("Logged Out!!");
 };

@@ -38,3 +38,12 @@ exports.getPlaces = (req, res, next) => {
     })
     .catch((err) => console.log(err));
 };
+
+exports.postDelete = (req, res, next) => {
+  console.log("delete place route being hit!!!");
+  // console.log(req);
+  const prodId = req.body.productId;
+  Place.deleteOne({ _id: prodId, userId: req.user._id })
+    .then(() => console.log("place destroyed!!"))
+    .catch((err) => console.log(err));
+};
