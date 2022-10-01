@@ -7,16 +7,18 @@ exports.getAuth = (req, res, next) => {
   res.send("You are authenticated!!!");
 };
 
-// exports.getLogin = (req, res, next) => {
-//   const user = req.session.user;
-//   console.log("USER: " + req.user);
+exports.getLogin = (req, res, next) => {
+  res.send("hitting the route");
+  // console.log("hitting /getUser route!!!!!!!!");
+  // const user = req.session;
+  // console.log("USER: " + user);
 
-//   if (!user) {
-//     console.log("USERID: " + JSON.stringify(req.userId));
-//     return res.send("cannot find user");
-//   }
-//   return res.send("found user");
-// };
+  // if (!user) {
+  //   console.log("USERID: " + JSON.stringify(req.userId));
+  //   return res.send("cannot find user");
+  // }
+  // return res.send("found user");
+};
 
 exports.getLogin = async (req, res) => {
   try {
@@ -64,7 +66,6 @@ exports.postLogin = (req, res, next) => {
 exports.postLogout = (req, res, next) => {
   req.session.destroy((err) => {
     console.log(err);
-    res.redirect("http://localhost:3000/login");
   });
   console.log("Logged Out!!");
 };

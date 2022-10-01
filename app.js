@@ -53,6 +53,7 @@ app.use(function (req, res, next) {
 });
 
 app.use((req, res, next) => {
+  // console.log("SESSION: " + JSON.stringify(req.session));
   if (!req.session.user) {
     return next();
   }
