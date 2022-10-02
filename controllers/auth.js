@@ -8,6 +8,14 @@ exports.getAuth = (req, res, next) => {
 };
 
 exports.getLogin = (req, res, next) => {
+  const token = req.headers["x-access-token"];
+
+  if (token) {
+    res.send("token found");
+  } else {
+    res.send("no token");
+  }
+
   res.send("hitting the route");
   // console.log("hitting /getUser route!!!!!!!!");
   // const user = req.session;
