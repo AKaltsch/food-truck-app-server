@@ -13,7 +13,7 @@ const verifyJWT = require("../middleware/auth");
 
 router.get("/isUserAuth", verifyJWT, authController.getAuth);
 
-router.get("/login", authController.getLogin);
+router.get("/login", verifyJWT, authController.getLogin);
 
 router.post("/login", authController.postLogin);
 

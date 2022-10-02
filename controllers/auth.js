@@ -8,15 +8,20 @@ exports.getAuth = (req, res, next) => {
 };
 
 exports.getLogin = (req, res, next) => {
-  const token = req.headers["x-access-token"];
-
-  if (token) {
-    res.send("token found");
-  } else {
-    res.send("no token");
-  }
-
   res.send("hitting the route");
+  console.log("hitting the route");
+  // const token = req.headers["Authorization"];
+
+  // if (token) {
+  //   res.send("token found");
+  // } else {
+  //   res.send("no token");
+  // }
+
+  // res.send("hitting the route");
+
+  ////////////////////
+
   // console.log("hitting /getUser route!!!!!!!!");
   // const user = req.session;
   // console.log("USER: " + user);
@@ -28,14 +33,14 @@ exports.getLogin = (req, res, next) => {
   // return res.send("found user");
 };
 
-exports.getLogin = async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id);
-    return req.send(user);
-  } catch {
-    (err) => console.log(err);
-  }
-};
+// exports.getLogin = async (req, res) => {
+//   try {
+//     const user = await User.findById(req.user.id);
+//     return req.send(user);
+//   } catch {
+//     (err) => console.log(err);
+//   }
+// };
 
 exports.postLogin = (req, res, next) => {
   const email = req.body.email;
