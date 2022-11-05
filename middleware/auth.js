@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 //   console.log(req.session.isLogedIn);
 // };
 module.exports = (req, res, next) => {
-  console.log(req.headers);
+  console.log("headers" + req.headers);
   const token = req.headers["Authorization"];
   // console.log(req.headers.auth);
 
